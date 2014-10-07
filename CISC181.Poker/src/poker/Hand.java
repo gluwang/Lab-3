@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class Hand {
 	private ArrayList<Card> CardsInHand;
 
-	private int HandStrength;
+	private int HandStrength = 0;
 	private int HiHand;
 	private int LoHand;
 	private int Kicker;
@@ -65,27 +65,30 @@ public class Hand {
 		Deck d = new Deck();
 		Hand h = new Hand(d);
 		Collections.sort(CardsInHand, Card.CardRank);
+		
 		//Checking for one joker; false if more than one.
-		ArrayList<Card> MakingDeck = new ArrayList<Card>();
+		ArrayList<Card> MakingDeck2 = new ArrayList<Card>();
 		for (short i = 0; i <= 3; i++) {
 			eSuit SuitValue = eSuit.values()[i];			
 			for (short j = 0; j <= 12; j++) {
 				eRank RankValue = eRank.values()[j];				
 				Card NewCard = new Card(SuitValue,RankValue);
-				MakingDeck.add(NewCard);
+				MakingDeck2.add(NewCard);
 			}
 			}
+		
 		if(CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.Joker || CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank() == eRank.Joker)
 		{
 			for(int i = 0; i < 52; i++)
 			{
 				CardsInHand.remove(0);
-				MakingDeck.get(i);
+				CardsInHand.add(MakingDeck2.get(i));
+				
 				
 				for(int j = 0; j < 52; j++)
 				{
 					CardsInHand.remove(1);
-					MakingDeck.get(j);
+					CardsInHand.add(MakingDeck2.get(j));
 					h.EvalHand();
 				}
 			}
@@ -99,7 +102,7 @@ public class Hand {
 				for(int j = 0; j < 52; j++)
 				{
 					CardsInHand.remove(0);
-					MakingDeck.get(j);
+					CardsInHand.add(MakingDeck2.get(j));
 					h.EvalHand();
 				}
 				
@@ -282,7 +285,11 @@ public class Hand {
 	}
 
 	private void ScoreHand(eHandStrength hST, int HiHand, int LoHand, int Kicker) {
-		this.HandStrength = hST.getHandStrength();
+		if(hST.getHandStrength() > this.HandStrength)
+		{
+			this.HandStrength = hST.getHandStrength();
+		}
+		
 		this.HiHand = HiHand;
 		this.LoHand = LoHand;
 		this.Kicker = Kicker;
