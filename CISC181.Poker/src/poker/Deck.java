@@ -7,6 +7,15 @@ import java.util.Random;
 public class Deck {
 	private ArrayList<Card> cards;
 
+	public Deck(int nbrofJokers){
+		this();
+			nbrofJokers = 2;
+		for(int i = 0; i <= 1; i++){
+			Card NewCard = new Card(eSuit.Joker, eRank.Joker);
+			cards.add(NewCard);
+		}
+	}
+		
 	public Deck() {
 
 		//	Create an ArrayList of Cards, add each card
@@ -20,12 +29,20 @@ public class Deck {
 			}
 		}
 		
+		
+		
+		
 		//	Set the instance variable
 		cards = MakingDeck;
 		
 		//	Shuffle the cards
 		Collections.shuffle(cards);
 		
+	}
+	
+	private ArrayList<Card> ShuffleCards(ArrayList<Card> DeckofCards){
+		Collections.shuffle(DeckofCards);
+		return DeckofCards;
 	}
 
 	public Card drawFromDeck() {

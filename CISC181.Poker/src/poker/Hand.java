@@ -55,19 +55,61 @@ public class Hand {
 		Deck d = new Deck();
 		Hand h = new Hand(d);
 		h.CardsInHand = SeededHand;
-		h.EvalHand();
+		h.JokerEval();
 		
 		return h;
 	}	
 	
+	public void JokerEval()
+	{
+		Deck d = new Deck();
+		Hand h = new Hand(d);
+		Collections.sort(CardsInHand, Card.CardRank);
+		//Checking for one joker; false if more than one.
+		ArrayList<Card> MakingDeck = new ArrayList<Card>();
+		for (short i = 0; i <= 3; i++) {
+			eSuit SuitValue = eSuit.values()[i];			
+			for (short j = 0; j <= 12; j++) {
+				eRank RankValue = eRank.values()[j];				
+				Card NewCard = new Card(SuitValue,RankValue);
+				MakingDeck.add(NewCard);
+			}
+			}
+		if(CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.Joker || CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank() == eRank.Joker)
+		{
+			
+			
+			
+		}else
+			//Checking for two jokers
+			if(CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.Joker)
+			{
+				CardsInHand.remove(0);
+				MakingDeck.get(0);
+				
+			
+			//If all false, normally evals hand.	
+			}else
+			{
+				h.EvalHand();
+			}
+		
+	}
+
+	
 	public void EvalHand() {
 		// Evaluates if the hand is a flush and/or straight then figures out
 		// the hand's strength attributes
-
+		ArrayList<Card> Import = new ArrayList<Card>();
 
 		// Sort the cards!
 		Collections.sort(CardsInHand, Card.CardRank);
-
+		
+		
+		
+		//--------------------------------------------------------------------------------------------------------------------
+		//--------------------------------------------------------------------------------------------------------------------
+		
 		// Ace Evaluation
 		if (CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.ACE) {
 			Ace = true;
@@ -124,8 +166,17 @@ public class Hand {
 		else if (Straight == true && Flush == true) {
 			ScoreHand(eHandStrength.StraightFlush, CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank().getRank(), 0, 0);
 		}
+		
+		// Five of a Kind
+		else if (CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.ThirdCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.FourthCard.getCardNo()).getRank()
+				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.FifthCard.getCardNo()).getRank()) {
+			ScoreHand(eHandStrength.FiveOfAKind, CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank().getRank(), 0, CardsInHand.get(eCardNo.FifthCard.getCardNo())
+					.getRank().getRank());
+		}
+		
 		// Four of a Kind
-
 		else if (CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank()
 				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.ThirdCard.getCardNo()).getRank()
 				&& CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == CardsInHand.get(eCardNo.FourthCard.getCardNo()).getRank()) {
@@ -225,6 +276,7 @@ public class Hand {
 	/**
 	 * Custom sort to figure the best hand in an array of hands
 	 */
+
 	public static Comparator<Hand> HandRank = new Comparator<Hand>() {
 
 		public int compare(Hand h1, Hand h2) {
