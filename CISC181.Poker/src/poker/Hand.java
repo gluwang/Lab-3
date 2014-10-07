@@ -77,6 +77,18 @@ public class Hand {
 			}
 		if(CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.Joker || CardsInHand.get(eCardNo.SecondCard.getCardNo()).getRank() == eRank.Joker)
 		{
+			for(int i = 0; i < 52; i++)
+			{
+				CardsInHand.remove(0);
+				MakingDeck.get(i);
+				
+				for(int j = 0; j < 52; j++)
+				{
+					CardsInHand.remove(1);
+					MakingDeck.get(j);
+					h.EvalHand();
+				}
+			}
 			
 			
 			
@@ -84,8 +96,13 @@ public class Hand {
 			//Checking for two jokers
 			if(CardsInHand.get(eCardNo.FirstCard.getCardNo()).getRank() == eRank.Joker)
 			{
-				CardsInHand.remove(0);
-				MakingDeck.get(0);
+				for(int j = 0; j < 52; j++)
+				{
+					CardsInHand.remove(0);
+					MakingDeck.get(j);
+					h.EvalHand();
+				}
+				
 				
 			
 			//If all false, normally evals hand.	
